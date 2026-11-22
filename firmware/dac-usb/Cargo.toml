@@ -1,0 +1,20 @@
+[package]
+name = "dac-usb"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+atsamd-hal = { version = "=0.16.0", features = ["samd21g-rt", "usb"] }
+cortex-m = "0.7"
+cortex-m-rt = "0.7"
+panic-halt = "0.2"
+usb-device = "0.2.9"
+usbd-serial = "0.1.1"
+tone-protocol = { path = "../tone-protocol" }
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+debug = true

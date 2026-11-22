@@ -1,0 +1,13 @@
+quantity,references,part,value,category,notes
+1,J1,2-pin connector,AUDIO_IN,Circuit part,Provisional footprint: Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+1,J2,2-pin connector,POWER_6V,Circuit part,Provisional footprint: Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+1,J3,2-pin connector,SPEAKER_8R,Circuit part,Provisional footprint: Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+1,U1,Amplifier IC,LM386N,Circuit part,Provisional footprint: Package_DIP:DIP-8_W7.62mm
+1,C2,Capacitor,100n,Circuit part,Provisional footprint: Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+1,C3,Capacitor,100u,Circuit part,"Provisional footprint: Capacitor_THT:CP_Radial_D6.3mm_P2.50mm; polarized electrolytic, at least 10 V; verify dimensions."
+1,C1,Capacitor,1u,Circuit part,Provisional footprint: Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+1,C4,Capacitor,220u,Circuit part,"Provisional footprint: Capacitor_THT:CP_Radial_D6.3mm_P2.50mm; polarized electrolytic, at least 10 V; verify dimensions."
+1,C5,Capacitor,47n,Circuit part,Provisional footprint: Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+1,R1,Resistor,10,Circuit part,Provisional footprint: Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+1,External speaker,Speaker / dummy load,8 ohms,External load,Not a PCB component; suitable power rating required.
+1,Power,Regulated supply,+6 V single supply,Test fixture,Current-limited supply or suitable battery source; not an IC component.

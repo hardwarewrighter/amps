@@ -1,0 +1,43 @@
+* 5 V left channel, generic one-pole op amp and repository BJT models
+VDD VCC 0 5
+VS LIN 0 SIN(0 0.0125 1k)
+* RV1 is shown at full volume for the bench gain check.
+RV1HIGH LIN VOL 1m
+RV1LOW VOL 0 20k
+C1 VOL PLUS 1u
+R1 FB ACREF 1k
+R2 FB OUT 10k
+R3 PLUS BUF 47k
+R4 VCC BN 2.2k
+R5 BP 0 2.2k
+R6 EN OUT 4.7
+R7 EP OUT 4.7
+R8 VCC MID 10k
+R9 MID 0 10k
+R10 LEFT 0 10k
+D1 BN DRV 1N4148
+D2 DRV BP 1N4148
+Q1 VCC BN EN 2N2222
+Q2 0 BP EP 2N2907
+C2 VCC 0 100u
+C3 VCC 0 100n
+C4 MID 0 47u
+C5 ACREF 0 47u
+C6 OUT LEFT 470u
+XU1A PLUS FB VCC 0 DRV OPAMP_APPROX
+XU1B MID BUF VCC 0 BUF OPAMP_APPROX
+RL LEFT 0 8.2
+.MODEL 2N2222 NPN(Is=14.34f Xti=3 Eg=1.11 Vaf=74.03 Bf=255.9 Ne=1.307 Ise=14.34f Ikf=.2847 Xtb=1.5 Br=6.092 Nc=2 Isc=0 Ikr=0 Rc=1 Cjc=7.306p Mjc=.3416 Vjc=.75 Fc=.5 Cje=22.01p Mje=.377 Vje=.75 Tr=46.91n Tf=411.1p Itf=.6 Xtf=1.7 Rb=10)
+.MODEL 2N2907 PNP(Is=650.6f Xti=3 Eg=1.11 Vaf=18.7 Bf=231.7 Ne=1.829 Ise=54.81f Ikf=1.079 Xtb=1.5 Br=3.563 Nc=2 Isc=0 Ikr=0 Rc=.715 Cjc=14.76p Mjc=.5383 Vjc=.75 Fc=.5 Cje=27.64p Mje=.3377 Vje=.75 Tr=69.83n Tf=544.1p Itf=.65 Xtf=1.7 Rb=10)
+.MODEL 1N4148 D(Is=2.52n Rs=.568 N=1.752 Cjo=4p M=.4 Vj=.6 Fc=.5 Tt=20n)
+.SUBCKT OPAMP_APPROX INP INM VP VM OUT PARAMS: GBW=1Meg
+E_OPEN Open 0 INP INM 100k
+R_POLE Open Filtered 1k
+C_POLE Filtered 0 {100k/(6.283185307*GBW*1k)}
+B_LIMIT Drive 0 V=min(max(V(Filtered),V(VM) +0.03),V(VP) -0.03)
+R_OUT Drive OUT 50
+.ENDS OPAMP_APPROX
+.tran 1u 12m
+.measure tran output_pp PP v(LEFT) from=8m to=12m
+.measure tran output_dc AVG v(LEFT) from=8m to=12m
+.end

@@ -1,0 +1,125 @@
+{
+  "root_uuid": "0bdd3c23-6708-454b-b0c2-b9e130f49b2c",
+  "parts": [
+    {
+      "ref": "U1",
+      "value": "LM386N",
+      "lib_id": "Amplifier_Audio:LM386",
+      "x": 127,
+      "y": 88.9,
+      "angle": 0,
+      "footprint": "Package_DIP:DIP-8_W7.62mm",
+      "uuid": "56dbc233-06eb-40b4-8788-27d05c3c64d3"
+    },
+    {
+      "ref": "C1",
+      "value": "1u",
+      "lib_id": "Device:C",
+      "x": 88.9,
+      "y": 86.36,
+      "angle": 90,
+      "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+      "uuid": "984a7104-ee34-4fde-b2dd-2e3c0e65f7ed"
+    },
+    {
+      "ref": "C2",
+      "value": "100n",
+      "lib_id": "Device:C",
+      "x": 99.06,
+      "y": 55.88,
+      "angle": 0,
+      "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+      "uuid": "200de80e-2224-4aa6-a8a1-ccfd7a51d985"
+    },
+    {
+      "ref": "C3",
+      "value": "100u",
+      "lib_id": "Device:C_Polarized",
+      "x": 116.84,
+      "y": 55.88,
+      "angle": 0,
+      "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+      "uuid": "2062659d-182a-4641-8e24-e7a3171005f3"
+    },
+    {
+      "ref": "C4",
+      "value": "220u",
+      "lib_id": "Device:C_Polarized",
+      "x": 160.02,
+      "y": 88.9,
+      "angle": 90,
+      "footprint": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+      "uuid": "d69a438d-f822-47e3-bf15-e4d0342563b1"
+    },
+    {
+      "ref": "R1",
+      "value": "10",
+      "lib_id": "Device:R",
+      "x": 144.78,
+      "y": 107.95,
+      "angle": 0,
+      "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+      "uuid": "6f2ccfcc-2925-4c1f-b193-77f5d9dde7e5"
+    },
+    {
+      "ref": "C5",
+      "value": "47n",
+      "lib_id": "Device:C",
+      "x": 144.78,
+      "y": 121.92,
+      "angle": 0,
+      "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+      "uuid": "8c3c010d-419c-4461-aa1f-171a9a90fa7c"
+    },
+    {
+      "ref": "J1",
+      "value": "AUDIO_IN",
+      "lib_id": "Connector_Generic:Conn_01x02",
+      "x": 60.96,
+      "y": 86.36,
+      "angle": 180,
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "uuid": "4ea1c0eb-4f2d-449a-bbcd-3c872a6c527d"
+    },
+    {
+      "ref": "J2",
+      "value": "POWER_6V",
+      "lib_id": "Connector_Generic:Conn_01x02",
+      "x": 60.96,
+      "y": 50.8,
+      "angle": 180,
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "uuid": "b4dd2c17-0cdd-466c-9b04-cfdebb179acd"
+    },
+    {
+      "ref": "J3",
+      "value": "SPEAKER_8R",
+      "lib_id": "Connector_Generic:Conn_01x02",
+      "x": 193.04,
+      "y": 88.9,
+      "angle": 0,
+      "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+      "uuid": "e1637b5f-2f43-41e0-bf9b-61f51c9fcf7f"
+    },
+    {
+      "ref": "#FLG01",
+      "value": "PWR_FLAG",
+      "lib_id": "power:PWR_FLAG",
+      "x": 81.28,
+      "y": 50.8,
+      "angle": 0,
+      "footprint": "",
+      "uuid": "02c544fa-efc5-4d90-ada1-37aaf50c2682"
+    },
+    {
+      "ref": "#FLG02",
+      "value": "PWR_FLAG",
+      "lib_id": "power:PWR_FLAG",
+      "x": 81.28,
+      "y": 66.04,
+      "angle": 0,
+      "footprint": "",
+      "uuid": "272c7b8a-8d4c-4637-9427-1cab1b3ed32f"
+    }
+  ]
+}

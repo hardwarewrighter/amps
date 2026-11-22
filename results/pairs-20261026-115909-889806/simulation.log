@@ -1,0 +1,87 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: * three transistor-pair amplifiers: shared input, +/-6 v, gain 11.
+
+Warning: Model issue on line 79 :
+  .model 2n2222 npn(is=14.34f xti=3 eg=1.11 vaf=74.03 bf=255.9 ne=1.307 is ...
+unrecognized parameter (vtfe) - ignored
+
+Warning: Model issue on line 80 :
+  .model 2n2907 pnp(is=650.6f xti=3 eg=1.11 vaf=18.7 bf=231.7 ne=1.829 ise ...
+unrecognized parameter (vtfe) - ignored
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+Note: Starting dynamic gmin stepping
+Note: Dynamic gmin stepping completed
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+vcc                                          6
+vee                                         -6
+input                                        0
+in_a                                         0
+x_op_a.open                          0.0541877
+fb_a                              -5.41877e-07
+x_op_a.filtered                      0.0541877
+x_op_a.drive                         0.0541877
+drive_a                              0.0523887
+out_a                             -5.96065e-06
+bp_a                                  0.659006
+bn_a                                 -0.555252
+qbp_a                                 0.658526
+qbn_a                                -0.554985
+ep_a                               0.000790865
+en_a                              -0.000803136
+zobel_a                           -5.96065e-06
+in_b                                         0
+x_op_b.open                       -5.37667e-11
+fb_b                               5.37667e-16
+x_op_b.filtered                   -5.37667e-11
+x_op_b.drive                      -5.37667e-11
+drive_b                           -2.29891e-11
+out_b                              5.91434e-15
+bp_b                                  0.607208
+bn_b                                 -0.607208
+qbp_b                                 0.606963
+qbn_b                                -0.606963
+ep_b                               0.000892175
+en_b                              -0.000892175
+zobel_b                            5.91434e-15
+in_c                                         0
+x_op_c.open                       -5.37481e-11
+fb_c                               5.37481e-16
+x_op_c.filtered                   -5.37481e-11
+x_op_c.drive                      -5.37481e-11
+drive_c                           -2.30287e-11
+out_c                              5.91229e-15
+bp_c                                  0.606771
+bn_c                                 -0.606771
+qbp_c                                 0.605801
+qbn_c                                -0.605801
+ep_c                                0.00159756
+en_c                               -0.00159756
+zobel_c                            5.91229e-15
+b.x_op_c.b_limit#branch            6.14389e-13
+b.x_op_b.b_limit#branch            6.15553e-13
+b.x_op_a.b_limit#branch           -3.59804e-05
+e.x_op_c.e_open#branch                       0
+e.x_op_b.e_open#branch                       0
+e.x_op_a.e_open#branch                       0
+v_input#branch                               0
+v_ee#branch                          0.0118803
+v_cc#branch                         -0.0118436
+
+
+No. of Data Rows : 5020
+input_rms           =  1.06070e-01 from=  2.00001e-01 to=  2.10000e-01
+a_rms               =  1.14935e+00 from=  2.00001e-01 to=  2.10000e-01
+b_rms               =  1.16636e+00 from=  2.00001e-01 to=  2.10000e-01
+c_rms               =  1.14370e+00 from=  2.00001e-01 to=  2.10000e-01
+ngspice-47 done

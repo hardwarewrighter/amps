@@ -1,0 +1,23 @@
+quantity,references,part,value,category,notes
+3,X_OP_A; X_OP_B; X_OP_C,Amplifier IC channel,LM741CN / UA741,Circuit part,"Quantity counts used channels, not necessarily IC packages. Single 741: 1/channel; duals: up to 2/package; LM324: up to 4/package. Terminate unused channels."
+1,Q_POS_A,Bipolar transistor,2N2222,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+1,Q_NEG_A,Bipolar transistor,2N2907,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+1,Q_NEG_B,Bipolar transistor,BC327,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+1,Q_POS_B,Bipolar transistor,BC337,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+1,Q_POS_C,Bipolar transistor,BD139,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+1,Q_NEG_C,Bipolar transistor,BD140,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+5,C_HF_POS; C_HF_NEG; C_ZOBEL_A; C_ZOBEL_B; C_ZOBEL_C,Capacitor,100n,Circuit part,Check polarity/type and voltage rating against the schematic and supply.
+2,C_DEC_POS; C_DEC_NEG,Capacitor,100u,Circuit part,Check polarity/type and voltage rating against the schematic and supply.
+3,C_IN_A; C_IN_B; C_IN_C,Capacitor,1u,Circuit part,Check polarity/type and voltage rating against the schematic and supply.
+6,D_POS_A; D_NEG_A; D_POS_B; D_NEG_B; D_POS_C; D_NEG_C,Diode,1N4148,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+4,R_EP_A; R_EN_A; R_EP_C; R_EN_C,Resistor,0.47,Circuit part,Emitter resistor; evaluate dissipation and required wattage (start with 0.5 W for the low-power experiments).
+2,R_EP_B; R_EN_B,Resistor,0.68,Circuit part,Emitter resistor; evaluate dissipation and required wattage (start with 0.5 W for the low-power experiments).
+3,R_ZOBEL_A; R_ZOBEL_B; R_ZOBEL_C,Resistor,10,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+10,R_BIAS_A; R_FB_A; R_BP_A; R_BN_A; R_BIAS_B; R_FB_B; R_BP_B; R_BN_B; R_BIAS_C; R_FB_C,Resistor,10k,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+3,R_IN_A; R_IN_B; R_IN_C,Resistor,1k,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+2,R_BP_C; R_BN_C,Resistor,3.3k,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+6,R_STOP_P_A; R_STOP_N_A; R_STOP_P_B; R_STOP_N_B; R_STOP_P_C; R_STOP_N_C,Resistor,47,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+3,R_LOAD_A; R_LOAD_B; R_LOAD_C,Resistor,8,External load,Speaker or noninductive dummy load; choose power rating for the measured output.
+1,V_INPUT,Voltage source,DC 0 AC 1 SIN(0 {V_INPUT} {FREQ}),Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_EE,Voltage source,{-V_RAIL},Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_CC,Voltage source,{V_RAIL},Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."

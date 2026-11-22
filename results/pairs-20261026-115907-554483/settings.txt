@@ -1,0 +1,3 @@
+{'input': 0.05, 'frequency': 1000, 'bias': 'as-proposed', 'gui': False}
+A=2N2222/2N2907; B=BC337/BC327; C=BD139/BD140
+Generic op-amp model; unvalidated transistor models.

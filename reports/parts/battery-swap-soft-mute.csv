@@ -1,0 +1,12 @@
+quantity,references,part,value,category,notes
+1,C1,Capacitor,22000u,Circuit part,Check polarity/type and voltage rating against the schematic and supply.
+1,D1,Diode,1N5408,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+1,J_Mute,JFET,2N5485,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+2,R_Series; R_Gate,Resistor,10k,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+1,R_LoadAmp,Resistor,8,External load,Speaker or noninductive dummy load; choose power rating for the measured output.
+2,S1; S2,Ideal controlled switch,SW_RELAY,Simulation / test fixture,"Conceptual contact only: relay/MOSFET, driver and controller implementation still undefined."
+1,V_BankA,Voltage source,DC {V_BAT1},Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_BankB,Voltage source,DC {V_BAT2},Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_Mute,Voltage source,PULSE(0 -5 10m 10u 10u 40m 100m),Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_Ctrl,Voltage source,PULSE(0 5 25m 1m 1m 50m 100m),Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_Audio,Voltage source,SIN(0 1.5 1000),Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."

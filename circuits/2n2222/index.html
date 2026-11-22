@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2N2222 amplifier · bench build</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="layout.js"></script>
+<script defer src="preview.js"></script>
+</head>
+<body>
+<header class="hero">
+<div class="wrap">
+<p class="eyebrow">5 V AUDIO MODULE</p>
+<h1>2N2222 bench amplifier</h1>
+<p>Build the left channel on a breadboard, test it with an 8.2 Ω load, then solder the same circuit onto a single-sided PCB. An eight-pin edge connector also fits a wired PAM8403 carrier.</p>
+<nav aria-label="Build guide">
+<a href="#interface">Edge connector</a><a href="#parts">Parts</a><a href="#volume">Volume</a><a href="#breadboard">Breadboard</a><a href="#test">Bench test</a><a href="#pcb">PCB</a>
+</nav>
+</div>
+</header>
+<main class="wrap">
+<section id="interface">
+<h2>Edge connector</h2>
+<p>On the PCB, J1 is a single row on 2.54 mm pitch. On the breadboard, use the individual terminals in the table. Looking down at the component side with J1 at the upper edge, pin 1 is at the left. Mark pin 1 on the mating plug and switch off the supply before swapping boards.</p>
+<div class="scroll"><table>
+<thead><tr><th>Pin</th><th>Harness</th><th>Breadboard terminal</th><th>2N2222 mono board</th><th>PAM8403 stereo carrier</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>LIN</td><td>a2</td><td>Left audio input</td><td>Left audio input</td></tr>
+<tr><td>2</td><td>RIN</td><td>a4</td><td>Open</td><td>Right audio input</td></tr>
+<tr><td>3</td><td>GND</td><td>e1</td><td>Audio and power ground</td><td>Audio and power ground</td></tr>
+<tr><td>4</td><td>+5 V</td><td>e3</td><td>Regulated 5 V</td><td>Regulated 5 V</td></tr>
+<tr><td>5</td><td>L+</td><td>j1</td><td>Left output after C6</td><td>Left output +</td></tr>
+<tr><td>6</td><td>R+</td><td>j3</td><td>Open</td><td>Right output +</td></tr>
+<tr><td>7</td><td>L−</td><td>j5</td><td>Left return tied to GND by W1</td><td>Left output −</td></tr>
+<tr><td>8</td><td>R−</td><td>j7</td><td>Open</td><td>Right output −</td></tr>
+</tbody></table></div>
+<p class="callout"><strong>Run two wires per speaker.</strong> Connect the left speaker to pins 5 and 7 and the future right speaker to pins 6 and 8. PAM8403 bridge outputs drive both leads. Keep both speaker returns isolated from each other and from pin 3 in the harness. W1 supplies the common return locally on the mono board. A three-wire speaker harness with a shared return requires rewiring before fitting the PAM board.</p>
+<p>The PAM column defines how to wire a carrier to a PAM8403 module. Check the specific module’s labels before wiring it. The edge header is a harness interface shared by both boards.</p>
+</section>
+<section id="parts">
+<h2>Parts list</h2>
+<p>Use an LM358P at U1 for the first breadboard build. The MCP6002-I/P and TLV2462CP use the same DIP-8 pinout and can be tested in the same socket. Use the listed onsemi TO-92 variants or match each substitute by its collector, base and emitter. The PCB has 2.54 mm hole spacing on Q1 and Q2, so gently spread straight leads to fit. Axial resistors use 7.62 mm hole spacing.</p>
+<div class="scroll"><table><thead><tr><th>Ref.</th><th>Qty.</th><th>Part</th></tr></thead><tbody id="bom"></tbody></table></div>
+<p>For the bench, use a 45-column or longer solderless breadboard, solid-core jumper wires, a current-limited 5 V supply, a multimeter, a scope, a signal generator and an 8.2 Ω resistor rated 1 W or higher. An 8 Ω speaker can follow the dummy-load test.</p>
+<p class="references"><a href="https://www.onsemi.com/pdf/datasheet/p2n2222a-d.pdf">P2N2222A pinout</a> · <a href="https://www.onsemi.com/download/data-sheet/pdf/p2n2907a-d.pdf">P2N2907A pinout</a> · <a href="https://www.ti.com/lit/ds/symlink/lm358.pdf">LM358P datasheet</a> · <a href="https://www.diodes.com/part/view/PAM8403">PAM8403</a></p>
+</section>
+<section id="volume">
+<h2>Volume control on the module</h2>
+<p>RV1 is a <strong>20 kΩ audio-taper pot</strong> between the left input terminal and C1. On the breadboard, a 10 kΩ or 20 kΩ audio-taper pot works. Use three short leads to the holes shown. The PCB fits the <strong>Bourns PTV09A-1020F-A203</strong>, with the shaft pointing up from the board, 2.5 mm signal-pin spacing, and two mounting tabs.</p>
+<div class="scroll"><table>
+<thead><tr><th>RV1 pin</th><th>Function</th><th>Breadboard lead</th><th>Connection</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Counterclockwise end</td><td>b1</td><td>Ground · shares the e1 strip</td></tr>
+<tr><td>2</td><td>Wiper</td><td>c8</td><td>Volume-adjusted signal · shares C1’s b8 strip</td></tr>
+<tr><td>3</td><td>Clockwise end</td><td>b2</td><td>Left audio input · shares the a2 strip</td></tr>
+</tbody>
+</table></div>
+<p>The audio source connects to a2 and e1. With the pot fully counterclockwise, its wiper should measure nearly zero ohms to the grounded end lug. Start with the knob fully counterclockwise. For the gain test, set the pot fully clockwise and measure the input at c8. A future stereo version can use a dual-gang 10 kΩ or 20 kΩ audio pot, with the second gang wired from RIN to the right amplifier input. The dual-gang part needs its own footprint. <a href="https://www.bourns.com/docs/product-datasheets/ptv09.pdf">RV1 footprint datasheet</a></p>
+</section>
+<section id="breadboard">
+<h2>1. Breadboard the left channel</h2>
+<ol>
+<li>Keep power off. Orient the board as shown, with letters a–e above the gap and f–j below it. Holes with the same number and on the same side of the center gap share a strip. Check the two rails for continuity and bridge any split in each rail you use.</li>
+<li>Fit U1 across the gap with its notch facing column 1. Place Q1 and Q2 by their pin numbers in the table. Install the resistors, D1/D2 and the capacitors. For a short-leaded 1 µF ceramic C1, use b8 and b6 (5.08 mm apart). Either direction works. Connect the pot wiper to c8 on the b8 strip. The a6–a14 jumper carries C1’s output to U1 pin 3. Match the diode stripe to K. Match each electrolytic lead to the + or − marker. C2 goes + to j22 (+5 V) and − to j24 (ground).</li>
+<li>Install the W1 link and every row in the jumper table. Rail positions are counted from the left in the drawing. If your rail-hole pattern differs, use any free hole on the specified rail.</li>
+<li>Connect the harness or clip leads to the individual J1 terminals shown in the table. For the first test, connect 5 V at e3, ground at e1, left input at a2, and the dummy load between j1 and j5. With power still off, verify continuity from pin 7 to pin 3 and check there’s no persistent short across pins 4 and 3. Align the DIP notch and recheck the diode bands and C6 polarity.</li>
+</ol>
+<div class="figure">
+<div class="figurebar"><strong>Breadboard · component side</strong><label><input type="checkbox" id="show-wires" checked> Show jumpers</label></div>
+<div class="scroll" id="bread-drawing"></div>
+<p class="caption">Select a component or jumper to highlight it in the diagram and the placement table.</p>
+</div>
+<div class="grids">
+<div class="scroll"><table><caption>Component placement · holes in terminal order</caption><thead><tr><th>Ref.</th><th>Holes</th><th>Nets</th></tr></thead><tbody id="placement"></tbody></table></div>
+<div class="scroll"><table><caption>Breadboard jumpers</caption><thead><tr><th>#</th><th>From</th><th>To</th><th>Net</th></tr></thead><tbody id="jumpers"></tbody></table></div>
+</div>
+</section>
+<section id="test">
+<h2>2. Power up and test</h2>
+<ol>
+<li>Leave the input and speaker disconnected. Set the bench supply to 5.0 V with a 50 mA limit and connect it between J1 pins 4 (+) and 3 (−). Brief charging current is normal. Switch off if the supply stays in current limit or the idle current settles above 15 mA.</li>
+<li>Measure to J1 pin 3. U1 pin 8 should be near 5 V. U1 pins 3, 5 and 7 and C6 positive should settle near 2.5 V. After about 30 seconds with the output open, aim for less than 50 mV DC between pins 5 and 7.</li>
+<li>Power off and fit the 8.2 Ω dummy load between pins 5 and 7. Ground the generator and scope to J1 pin 3 on this mono prototype. Turn RV1 fully clockwise, feed a 1 kHz sine into pin 1, and adjust the generator until you measure about 25 mV peak-to-peak at the wiper (c8). Use the generator’s Hi-Z setting if available.</li>
+<li>Power up. Expect about 0.275 Vpp across the load for 25 mVpp in. Inspect the sine for clipping, a notch through zero, or high-frequency oscillation. The LM358P has limited swing toward +5 V, so watch the positive peak as you increase the input. If it’s clean, raise the supply limit to 100 mA and increase the input gradually toward 90 mVpp and stop at the first sign of distortion or at 1 Vpp out (about 15 mW into 8.2 Ω).</li>
+<li>Power off, swap the load for the 8 Ω left speaker, and restart at low signal level. Keep the right input and outputs unused on this build. When testing a PAM carrier, use a differential probe across a speaker pair if measuring the output. A grounded scope clip on a PAM speaker terminal can short its output.</li>
+</ol>
+<p class="caption">The generic op-amp SPICE model gives 2.50 V before C6, about 1.6 mA idle supply current, and 0.275 Vpp into 8.2 Ω at 1 kHz. Measure bias, offset, clipping and stability on the LM358P breadboard. <a href="push-pull.cir" download>Download SPICE deck</a></p>
+</section>
+<section id="pcb">
+<h2>3. Solder the PCB after the bench test</h2>
+<p>All tracks and solder pads are on the bottom copper. Through-hole components plus W1 and W2 go on the top. W1 connects the mono left speaker return to ground.</p>
+<div class="figure">
+<div class="figurebar"><strong>PCB · <span id="board-size"></span></strong><div class="switch" aria-label="PCB side"><button type="button" data-view="top" aria-pressed="true">Placement</button><button type="button" data-view="bottom" aria-pressed="false">Copper underside</button></div></div>
+<div class="scroll" id="pcb-drawing"></div>
+<p class="caption" id="pcb-caption"></p>
+</div>
+<p><a class="download" href="push-pull.kicad_pcb" download>Download KiCad PCB</a></p>
+<ol>
+<li>Use the KiCad board for plotting bottom copper, outline and drill data. The underside view above shows how the copper looks from the solder side. Confirm the actual header pitch and capacitor bodies against the board before drilling or ordering.</li>
+<li>Fit W1, W2, resistors, diodes and the DIP socket first. Then fit capacitors, transistors, J1 and RV1. Align RV1’s three pins and two mounting tabs with its footprint. Match C2/C4/C5/C6 positive leads, diode bands and the transistor C/B/E marks to the placement view.</li>
+<li>Before inserting U1, check for rail shorts and verify 5 V at socket pin 8 and ground at pin 4. Verify W1 from J1 pin 7 to pin 3. Power off, insert U1, and repeat the bench tests with the dummy load before connecting the speaker.</li>
+</ol>
+</section>
+</main>
+</body>
+</html>

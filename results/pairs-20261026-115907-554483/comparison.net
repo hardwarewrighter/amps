@@ -1,0 +1,110 @@
+* Three transistor-pair amplifiers: shared input, +/-6 V, gain 11.
+* Educational comparison, not a prediction of actual sound quality.
+* Generic 741-like one-pole op-amp omits slew rate/current limit/noise.
+* Original transistor models from docs/research.txt are unvalidated.
+* BC337/327 and BD139/140 models are particularly simplified.
+* Defaults reproduce original differing bias/emitter resistor values.
+* Set all RB_* and RE_* equal to compare at common resistor values.
+* Common resistors do not guarantee equal idle current or equal optimization.
+.PARAM V_RAIL=6 R_LOAD=8 V_INPUT=0.05 FREQ=1000
+.PARAM RB_A=10k RB_B=10k RB_C=3.3k RE_A=0.47 RE_B=0.68 RE_C=0.47
+V_CC VCC 0 {V_RAIL}
+V_EE VEE 0 {-V_RAIL}
+V_INPUT Input 0 DC 0 AC 1 SIN(0 {V_INPUT} {FREQ})
+C_DEC_POS VCC 0 100u
+C_DEC_NEG VEE 0 100u
+C_HF_POS VCC 0 100n
+C_HF_NEG VEE 0 100n
+
+* Channel A: 2N2222/2N2907; output node Out_A.
+C_IN_A Input In_A 1u
+R_BIAS_A In_A 0 10k
+X_OP_A In_A FB_A VCC VEE Drive_A OPAMP_APPROX PARAMS: GBW=1Meg
+R_IN_A FB_A 0 1k
+R_FB_A FB_A Out_A 10k
+R_BP_A VCC BP_A {RB_A}
+D_POS_A BP_A Drive_A 1N4148
+D_NEG_A Drive_A BN_A 1N4148
+R_BN_A BN_A VEE {RB_A}
+R_STOP_P_A BP_A QBP_A 47
+R_STOP_N_A BN_A QBN_A 47
+Q_POS_A VCC QBP_A EP_A 2N2222
+Q_NEG_A VEE QBN_A EN_A 2N2907
+R_EP_A EP_A Out_A {RE_A}
+R_EN_A EN_A Out_A {RE_A}
+R_LOAD_A Out_A 0 {R_LOAD}
+R_ZOBEL_A Out_A Zobel_A 10
+C_ZOBEL_A Zobel_A 0 100n
+
+* Channel B: BC337/BC327; output node Out_B.
+C_IN_B Input In_B 1u
+R_BIAS_B In_B 0 10k
+X_OP_B In_B FB_B VCC VEE Drive_B OPAMP_APPROX PARAMS: GBW=1Meg
+R_IN_B FB_B 0 1k
+R_FB_B FB_B Out_B 10k
+R_BP_B VCC BP_B {RB_B}
+D_POS_B BP_B Drive_B 1N4148
+D_NEG_B Drive_B BN_B 1N4148
+R_BN_B BN_B VEE {RB_B}
+R_STOP_P_B BP_B QBP_B 47
+R_STOP_N_B BN_B QBN_B 47
+Q_POS_B VCC QBP_B EP_B BC337
+Q_NEG_B VEE QBN_B EN_B BC327
+R_EP_B EP_B Out_B {RE_B}
+R_EN_B EN_B Out_B {RE_B}
+R_LOAD_B Out_B 0 {R_LOAD}
+R_ZOBEL_B Out_B Zobel_B 10
+C_ZOBEL_B Zobel_B 0 100n
+
+* Channel C: BD139/BD140; output node Out_C.
+C_IN_C Input In_C 1u
+R_BIAS_C In_C 0 10k
+X_OP_C In_C FB_C VCC VEE Drive_C OPAMP_APPROX PARAMS: GBW=1Meg
+R_IN_C FB_C 0 1k
+R_FB_C FB_C Out_C 10k
+R_BP_C VCC BP_C {RB_C}
+D_POS_C BP_C Drive_C 1N4148
+D_NEG_C Drive_C BN_C 1N4148
+R_BN_C BN_C VEE {RB_C}
+R_STOP_P_C BP_C QBP_C 47
+R_STOP_N_C BN_C QBN_C 47
+Q_POS_C VCC QBP_C EP_C BD139
+Q_NEG_C VEE QBN_C EN_C BD140
+R_EP_C EP_C Out_C {RE_C}
+R_EN_C EN_C Out_C {RE_C}
+R_LOAD_C Out_C 0 {R_LOAD}
+R_ZOBEL_C Out_C Zobel_C 10
+C_ZOBEL_C Zobel_C 0 100n
+
+.MODEL 2N2222 NPN(Is=14.34f Xti=3 Eg=1.11 Vaf=74.03 Bf=255.9 Ne=1.307 Ise=14.34f Ikf=.2847 Xtb=1.5 Br=6.092 Nc=2 Isc=0 Ikr=0 Rc=1 Cjc=7.306p Mjc=.3416 Vjc=.75 Fc=.5 Cje=22.01p Mje=.377 Vje=.75 Tr=46.91n Tf=411.1p Itf=.6 Vtfe=6 Xtf=1.7 Rb=10)
+.MODEL 2N2907 PNP(Is=650.6f Xti=3 Eg=1.11 Vaf=18.7 Bf=231.7 Ne=1.829 Ise=54.81f Ikf=1.079 Xtb=1.5 Br=3.563 Nc=2 Isc=0 Ikr=0 Rc=.715 Cjc=14.76p Mjc=.5383 Vjc=.75 Fc=.5 Cje=27.64p Mje=.3377 Vje=.75 Tr=69.83n Tf=544.1p Itf=.65 Vtfe=1.25 Xtf=1.7 Rb=10)
+.MODEL 1N4148 D(Is=2.52n Rs=.568 N=1.752 Cjo=4p M=.4 Vj=.6 Fc=.5 Tt=20n)
+.MODEL BC337 NPN(IS=1.2E-13 BF=350 VAF=100 IKF=0.6 ISE=1E-14 NE=1.5 BR=5 RC=0.15 CJE=40p CJC=15p TF=500p)
+.MODEL BC327 PNP(IS=1.2E-13 BF=350 VAF=100 IKF=0.6 ISE=1E-14 NE=1.5 BR=5 RC=0.15 CJE=40p CJC=15p TF=500p)
+.MODEL BD139 NPN(IS=2.3E-13 BF=160 VAF=100 IKF=1.5 ISE=1E-13 NE=1.5 BR=4 RC=0.1 CJE=80p CJC=50p TF=1n)
+.MODEL BD140 PNP(IS=2.3E-13 BF=160 VAF=100 IKF=1.5 ISE=1E-13 NE=1.5 BR=4 RC=0.1 CJE=80p CJC=50p TF=1n)
+
+.SUBCKT OPAMP_APPROX INP INM VP VM OUT PARAMS: GBW=1Meg
+E_OPEN Open 0 INP INM 100k
+R_POLE Open Filtered 1k
+C_POLE Filtered 0 {100k/(6.283185307*GBW*1k)}
+B_LIMIT Drive 0 V=min(max(V(Filtered),V(VM)+1.5),V(VP)-1.5)
+R_OUT Drive OUT 50
+.ENDS OPAMP_APPROX
+
+.TRAN 2u 200m
+.SAVE V(Input) V(Out_A) V(Out_B) V(Out_C)
+
+.control
+set noaskquit
+set wr_singlescale
+set wr_vecnames
+tran 2e-06 0.21 0.2 2e-06
+wrdata waveforms.txt v(Input) v(Out_A) v(Out_B) v(Out_C)
+meas tran input_rms RMS v(Input) from=0.2 to=0.21
+meas tran a_rms RMS v(Out_A) from=0.2 to=0.21
+meas tran b_rms RMS v(Out_B) from=0.2 to=0.21
+meas tran c_rms RMS v(Out_C) from=0.2 to=0.21
+quit
+.endc
+.END

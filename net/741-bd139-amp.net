@@ -1,0 +1,77 @@
+* LM741CN / UA741 + BD139/BD140 audio experiment, +/-6 V, gain 11
+* Derived from bd139-amp.net; original extracted files are unchanged.
+* Device reference: https://www.ti.com/lit/ds/symlink/lm741.pdf
+* Single DIP-8: in-=2, in+=3, V-=4, out=6, V+=7.
+* Leave offset-null pins 1 and 5 and NC pin 8 unconnected.
+* Check actual manufacturer's package datasheet before wiring.
+* Model terminals below are FUNCTIONAL, not physical pin numbers.
+* Uses generic educational approximation, NOT a manufacturer model.
+* GBW is illustrative; headroom, Rout and DC gain are generic assumptions.
+* No slew rate, input bias, noise, current limit, or crossover model.
+* This simulation CANNOT rank the actual ICs' sound quality or stability.
+* Diode bias/base drive and thermal behavior require hardware evaluation.
+
+.PARAM V_RAIL=6.0
+.PARAM R_LOAD=8
+
+* --- POWER RAILS ---
+V_CC VCC 0 DC {V_RAIL}
+V_EE VEE 0 DC {-V_RAIL}
+
+* --- INPUT SIGNAL ---
+V_IN Audio_In 0 DC 0 AC 1 SIN(0 0.05 1000)
+C_IN Audio_In Opamp_In 1uF
+R_BIAS Opamp_In 0 10k
+
+* --- OP-AMP AND GLOBAL FEEDBACK ---
+X_Opamp Opamp_In FB VCC VEE Opamp_Out OPAMP_APPROX PARAMS: GBW=1Meg
+R_IN FB 0 1k
+R_F  FB Amp_Out 10k
+
+* --- OPTIMIZED BIAS NETWORK (Lower Resistor Values for Higher Base Drive) ---
+R_B1 VCC Base_NPN 3.3k
+D1 Base_NPN Driver_Node 1N4148
+D2 Driver_Node Base_PNP 1N4148
+R_B2 Base_PNP VEE 3.3k
+V_DRV Opamp_Out Driver_Node 0
+
+* --- OUTPUT STAGE (BD139 / BD140) ---
+R_STOP_N Base_NPN QBase_NPN 47
+R_STOP_P Base_PNP QBase_PNP 47
+Q_NPN Collector_NPN QBase_NPN Emitter_NPN BD139
+Q_PNP Collector_PNP QBase_PNP Emitter_PNP BD140
+
+V_SENSE_POS VCC Collector_NPN 0V
+V_SENSE_NEG VEE Collector_PNP 0V
+
+R_E1 Emitter_NPN Amp_Out 0.47
+R_E2 Emitter_PNP Amp_Out 0.47
+R_L Amp_Out 0 {R_LOAD}
+
+* --- DECOUPLING CAPACITORS ---
+C_DEC1 VCC 0 100uF
+C_DEC2 VEE 0 100uF
+C_HF_POS VCC 0 100n
+C_HF_NEG VEE 0 100n
+R_ZOBEL Amp_Out Zobel 10
+C_ZOBEL Zobel 0 100n
+
+* --- MODELS & SIMULATION COMMANDS ---
+.MODEL BD139 NPN(IS=2.3E-13 BF=160 VAF=100 IKF=1.5 ISE=1E-13 NE=1.5 BR=4 RC=0.1 CJE=80p CJC=50p TF=1n)
+.MODEL BD140 PNP(IS=2.3E-13 BF=160 VAF=100 IKF=1.5 ISE=1E-13 NE=1.5 BR=4 RC=0.1 CJE=80p CJC=50p TF=1n)
+.MODEL 1N4148 D(Is=2.52n Rs=.568 N=1.752 Cjo=4p M=.4 Vj=.6 Fc=.5 Tt=20n)
+
+* Generic one-pole op-amp approximation; deliberately incomplete.
+.SUBCKT OPAMP_APPROX INP INM VP VM OUT PARAMS: GBW=1Meg
+E_OPEN Open 0 INP INM 100k
+R_POLE Open Filtered 1k
+C_POLE Filtered 0 {100k/(6.283185307*GBW*1k)}
+B_LIMIT Drive 0 V=min(max(V(Filtered),V(VM)+1.5),V(VP)-1.5)
+R_OUT Drive OUT 50
+.ENDS OPAMP_APPROX
+
+.TRAN 2u 20m 0 2u
+.PRINT TRAN V(Audio_In) V(Amp_Out)
+.AC DEC 40 10 1Meg
+.PRINT AC VM(Amp_Out)
+.END

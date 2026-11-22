@@ -1,0 +1,26 @@
+# Local Git metadata and tooling
+/.git-local/
+/.agents/
+/.aws/
+/.codex/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+target/
+dist/
+
+# KiCad editor state
+*.kicad_prl
+*.lck
+
+# Compiled firmware, executables, and packaged reports
+*.bin
+*.elf
+*.uf2
+/firmware/dac-tone/tools/bossac
+*.pdf
+*.png
+*.zip

@@ -1,0 +1,54 @@
+Extracted verbatim from docs/research.txt (apart from trailing whitespace).
+
+Files:
+  battery-swap-soft-mute.net - educational battery switching and JFET mute model
+  2n2222-amp.net            - LM741 with 2N2222 / 2N2907
+  bc337-amp.net             - LM741 with BC337 / BC327
+  bd139-amp.net             - LM741 with BD139 / BD140
+
+Recommended Arch Linux tools:
+  sudo pacman -Syu ngspice kicad kicad-library
+Optional 3D component models:
+  sudo pacman -S kicad-library-3d
+
+ngspice simulates text SPICE netlists. KiCad provides schematic capture,
+PCB layout, and integrated ngspice simulation. These .net files are SPICE
+simulation decks, not KiCad PCB connectivity netlists; schematic symbols,
+footprints, and PCB placement/routing still need to be created in KiCad.
+
+Source limitations (not repaired in these faithful extractions):
+- All three amplifiers invoke LM741_Subckt but never define or include it.
+  Obtain an LM741 SPICE macromodel and match the subcircuit name and pin
+  order before simulation: non-inverting, inverting, V+, V-, output.
+- C_IN leaves Opamp_In without a DC bias return resistor.
+- R_DRV is zero ohms; ngspice portability may require merging those nodes
+  or replacing this connection with a zero-volt voltage source.
+- The battery deck reverses S2 control terminals while using the same
+  positive-threshold switch model. With SW_CTRL at 0..5 V, S2 does not
+  turn on; this is not a working complementary bank switchover model.
+- The battery deck models one positive rail and prescribed timing signals;
+  it contains no implemented zero-crossing detector or complete controller.
+
+ngspice 47 is now installed. The original extracted decks remain unvalidated;
+derived examples and the combined comparison have been run separately.
+Extraction does not validate the discussion's hardware or audio claims.
+
+References:
+https://archlinux.org/packages/extra/x86_64/ngspice/
+https://www.kicad.org/download/details/arch-linux/
+https://www.kicad.org/discover/spice/
+
+New circuit (not extracted from the discussion):
+  lm386n-amp.net - single +6 V LM386N amplifier, gain 20, 8-ohm load,
+  10k volume control, output coupling and supply bypass capacitors.
+  Contains a self-contained, fixed-gain behavioral approximation, not a
+  manufacturer macromodel. See its comments for modeling limits.
+  The actual IC needs no LM741 or external output transistors.
+  Verify the complete device marking (-1, -3, or -4) before choosing a
+  different supply voltage. Pins 1 and 8 are left open for gain 20.
+  Example batch simulation from the repository root after installing ngspice:
+    ngspice -b -o /tmp/lm386n-amp.log net/lm386n-amp.net
+  For interactive plots, load the file in ngspice, then use:
+    run
+    plot v(Speaker) v(Input_Plus)
+  Reference: https://www.ti.com/lit/ds/symlink/lm386.pdf

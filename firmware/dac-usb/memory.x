@@ -1,0 +1,6 @@
+MEMORY
+{
+  /* XIAO ATSAMD21G18A: reserve the existing 8 KiB USB bootloader. */
+  FLASH : ORIGIN = 0x00002000, LENGTH = 256K - 8K
+  RAM : ORIGIN = 0x20000000, LENGTH = 32K - 8
+}

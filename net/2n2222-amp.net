@@ -1,0 +1,49 @@
+* LM741 + 2N2222/2N2907 Push-Pull Audio Amplifier
+* SPICE Netlist
+
+.PARAM V_RAIL=6.0
+.PARAM R_LOAD=8
+
+* --- POWER RAILS ---
+V_CC VCC 0 DC {V_RAIL}
+V_EE VEE 0 DC {-V_RAIL}
+
+* --- INPUT SIGNAL ---
+V_IN Audio_In 0 SIN(0 0.5 1000)
+C_IN Audio_In Opamp_In 1uF
+
+* --- OP-AMP (LM741) & FEEDBACK ---
+* Pin Connections: Non-Inverting, Inverting, V+, V-, Output
+X_Opamp Opamp_In FB VCC VEE Opamp_Out LM741_Subckt
+R_IN FB 0 1k
+R_F  FB Amp_Out 10k
+
+* --- BIAS NETWORK ---
+R_B1 VCC Base_NPN 10k
+D1 Base_NPN Driver_Node 1N4148
+D2 Driver_Node Base_PNP 1N4148
+R_B2 Base_PNP VEE 10k
+R_DRV Opamp_Out Driver_Node 0
+
+* --- OUTPUT STAGE (2N2222 / 2N2907) ---
+Q_NPN Collector_NPN Base_NPN Emitter_NPN 2N2222
+Q_PNP Collector_PNP Base_PNP Emitter_PNP 2N2907
+
+V_SENSE_POS VCC Collector_NPN 0V
+V_SENSE_NEG VEE Collector_PNP 0V
+
+R_E1 Emitter_NPN Amp_Out 0.47
+R_E2 Emitter_PNP Amp_Out 0.47
+R_L Amp_Out 0 {R_LOAD}
+
+* --- DECOUPLING CAPACITORS ---
+C_DEC1 VCC 0 100uF
+C_DEC2 VEE 0 100uF
+
+* --- MODELS & SIMULATION COMMANDS ---
+.MODEL 2N2222 NPN(Is=14.34f Xti=3 Eg=1.11 Vaf=74.03 Bf=255.9 Ne=1.307 Ise=14.34f Ikf=.2847 Xtb=1.5 Br=6.092 Nc=2 Isc=0 Ikr=0 Rc=1 Cjc=7.306p Mjc=.3416 Vjc=.75 Fc=.5 Cje=22.01p Mje=.377 Vje=.75 Tr=46.91n Tf=411.1p Itf=.6 Vtfe=6 Xtf=1.7 Rb=10)
+.MODEL 2N2907 PNP(Is=650.6f Xti=3 Eg=1.11 Vaf=18.7 Bf=231.7 Ne=1.829 Ise=54.81f Ikf=1.079 Xtb=1.5 Br=3.563 Nc=2 Isc=0 Ikr=0 Rc=.715 Cjc=14.76p Mjc=.5383 Vjc=.75 Fc=.5 Cje=27.64p Mje=.3377 Vje=.75 Tr=69.83n Tf=544.1p Itf=.65 Vtfe=1.25 Xtf=1.7 Rb=10)
+.MODEL 1N4148 D(Is=2.52n Rs=.568 N=1.752 Cjo=4p M=.4 Vj=.6 Fc=.5 Tt=20n)
+
+.TRAN 10u 5m 0 10u
+.END

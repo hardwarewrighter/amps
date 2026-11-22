@@ -1,0 +1,20 @@
+quantity,references,part,value,category,notes
+1,X_Opamp,Amplifier IC channel,NE5532,Circuit part,"Quantity counts used channels, not necessarily IC packages. Single 741: 1/channel; duals: up to 2/package; LM324: up to 4/package. Terminate unused channels."
+1,Q_NPN,Bipolar transistor,BD139,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+1,Q_PNP,Bipolar transistor,BD140,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+3,C_HF_POS; C_HF_NEG; C_ZOBEL,Capacitor,100n,Circuit part,Check polarity/type and voltage rating against the schematic and supply.
+2,C_DEC1; C_DEC2,Capacitor,100uF,Circuit part,Check polarity/type and voltage rating against the schematic and supply.
+1,C_IN,Capacitor,1uF,Circuit part,Check polarity/type and voltage rating against the schematic and supply.
+2,D1; D2,Diode,1N4148,Circuit part,Verify actual package pinout; model name alone does not specify the package.
+2,R_E1; R_E2,Resistor,0.47,Circuit part,Emitter resistor; evaluate dissipation and required wattage (start with 0.5 W for the low-power experiments).
+1,R_ZOBEL,Resistor,10,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+2,R_BIAS; R_F,Resistor,10k,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+1,R_IN,Resistor,1k,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+2,R_B1; R_B2,Resistor,3.3k,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+2,R_STOP_N; R_STOP_P,Resistor,47,Circuit part,Resistance in ohms; wattage and tolerance require design review.
+1,R_L,Resistor,8,External load,Speaker or noninductive dummy load; choose power rating for the measured output.
+1,V_DRV,Voltage source,0,Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+2,V_SENSE_POS; V_SENSE_NEG,Voltage source,0V,Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_IN,Voltage source,DC 0 AC 1 SIN(0 0.05 1000),Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_EE,Voltage source,DC {-V_RAIL},Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."
+1,V_CC,Voltage source,DC {V_RAIL},Simulation / test fixture,"Not a physical BOM item. Supply, generator, sensing connection or control abstraction."

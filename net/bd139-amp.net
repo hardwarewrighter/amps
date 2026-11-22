@@ -1,0 +1,48 @@
+* LM741 + BD139/BD140 Push-Pull Audio Amplifier (Optimized Bias Drive)
+* SPICE Netlist
+
+.PARAM V_RAIL=6.0
+.PARAM R_LOAD=8
+
+* --- POWER RAILS ---
+V_CC VCC 0 DC {V_RAIL}
+V_EE VEE 0 DC {-V_RAIL}
+
+* --- INPUT SIGNAL ---
+V_IN Audio_In 0 SIN(0 0.5 1000)
+C_IN Audio_In Opamp_In 1uF
+
+* --- OP-AMP (LM741) & FEEDBACK ---
+X_Opamp Opamp_In FB VCC VEE Opamp_Out LM741_Subckt
+R_IN FB 0 1k
+R_F  FB Amp_Out 10k
+
+* --- OPTIMIZED BIAS NETWORK (Lower Resistor Values for Higher Base Drive) ---
+R_B1 VCC Base_NPN 3.3k
+D1 Base_NPN Driver_Node 1N4148
+D2 Driver_Node Base_PNP 1N4148
+R_B2 Base_PNP VEE 3.3k
+R_DRV Opamp_Out Driver_Node 0
+
+* --- OUTPUT STAGE (BD139 / BD140) ---
+Q_NPN Collector_NPN Base_NPN Emitter_NPN BD139
+Q_PNP Collector_PNP Base_PNP Emitter_PNP BD140
+
+V_SENSE_POS VCC Collector_NPN 0V
+V_SENSE_NEG VEE Collector_PNP 0V
+
+R_E1 Emitter_NPN Amp_Out 0.47
+R_E2 Emitter_PNP Amp_Out 0.47
+R_L Amp_Out 0 {R_LOAD}
+
+* --- DECOUPLING CAPACITORS ---
+C_DEC1 VCC 0 100uF
+C_DEC2 VEE 0 100uF
+
+* --- MODELS & SIMULATION COMMANDS ---
+.MODEL BD139 NPN(IS=2.3E-13 BF=160 VAF=100 IKF=1.5 ISE=1E-13 NE=1.5 BR=4 RC=0.1 CJE=80p CJC=50p TF=1n)
+.MODEL BD140 PNP(IS=2.3E-13 BF=160 VAF=100 IKF=1.5 ISE=1E-13 NE=1.5 BR=4 RC=0.1 CJE=80p CJC=50p TF=1n)
+.MODEL 1N4148 D(Is=2.52n Rs=.568 N=1.752 Cjo=4p M=.4 Vj=.6 Fc=.5 Tt=20n)
+
+.TRAN 10u 5m 0 10u
+.END

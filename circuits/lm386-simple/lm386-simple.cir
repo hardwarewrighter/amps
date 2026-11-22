@@ -1,0 +1,58 @@
+* LM386N simple build: +6 V supply, gain 20, 8-ohm speaker
+* Application topology based on TI LM386 datasheet, section 9.2.1.
+* https://www.ti.com/lit/ds/symlink/lm386.pdf
+* Includes an APPROXIMATE educational behavioral model, NOT a TI model.
+* Gain pins 1 and 8 must remain open with this fixed-gain model.
+
+.PARAM V_SUPPLY=6
+.PARAM R_LOAD=8
+.PARAM V_INPUT=50m
+
+* Single positive supply: pin 6 = +6 V, pin 4 = ground.
+V_SUPPLY VCC 0 DC {V_SUPPLY}
+C_DECOUPLE VCC 0 100n
+C_BULK VCC 0 100u
+
+* 1 kHz test tone; no volume pot. Set amplitude at the signal source.
+* V_INPUT is peak amplitude, not peak-to-peak.
+V_AUDIO Audio_In 0 DC 0 AC 1 SIN(0 {V_INPUT} 1k)
+C_INPUT Audio_In Input_Plus 1u
+
+* Physical DIP pin order: 1 gain, 2 in-, 3 in+, 4 GND,
+* 5 output, 6 supply, 7 bypass, 8 gain.
+X_AMP Gain_1 0 Input_Plus 0 IC_Out VCC Bypass Gain_8 LM386_GAIN20_APPROX
+* Pin 7 bypass is optional and left open for this simple build.
+
+* Output rests near half the supply; coupling cap blocks speaker DC.
+* Electrolytic positive lead faces pin 5 (IC_Out).
+C_OUTPUT IC_Out Speaker 220u
+R_SPEAKER Speaker 0 {R_LOAD}
+
+* Output stabilization network, mounted close to pin 5 and ground.
+R_ZOBEL IC_Out Zobel 10
+C_ZOBEL Zobel 0 47n
+
+* Fixed-gain approximation: 20 V/V, 300 kHz small-signal pole,
+* half-supply output bias, assumed 1.2 V rail headroom and 0.2-ohm Rout.
+* These are illustrative assumptions, not a model of a particular suffix.
+* Does NOT predict THD, current limiting, thermal behavior, supply current,
+* slew limiting, PSRR, oscillation, or gain-pin/bypass-cap behavior.
+.SUBCKT LM386_GAIN20_APPROX G1 INM INP GND OUT VS BYP G8
+R_INP INP GND 50k
+R_INM INM GND 50k
+E_GAIN Gain_Node GND INP INM 20
+R_POLE Gain_Node Filtered 1k
+C_POLE Filtered GND 530.5p
+B_OUTPUT Internal GND V=min(max(V(VS,GND)/2+V(Filtered,GND),1.2),V(VS,GND)-1.2)
+R_OUTPUT Internal OUT 0.2
+* Bypass bias provided only to give the external capacitor a DC operating point.
+E_BYP Bypass_Ideal GND VS GND 0.5
+R_BYP Bypass_Ideal BYP 15k
+.ENDS LM386_GAIN20_APPROX
+
+* Start transient after DC operating point; observe the final few cycles.
+.TRAN 2u 30m 0 2u
+.AC DEC 50 10 1Meg
+.PRINT TRAN V(Audio_In) V(Input_Plus) V(IC_Out) V(Speaker)
+.PRINT AC VM(Speaker)
+.END

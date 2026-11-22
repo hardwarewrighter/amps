@@ -1,0 +1,88 @@
+Amplifier choices for the parts on hand
+=====================================
+
+Build today: lm386n-simple-amp.net
+Single +6 V supply, gain 20, 8-ohm speaker, no external transistors,
+no volume control. IC plus six external passive components:
+  1uF input coupling capacitor
+  100nF ceramic and 100uF electrolytic supply decoupling
+  250uF output coupling capacitor (220uF or 470uF practical alternatives)
+  10-ohm resistor in series with 50nF capacitor from output to ground
+    (47nF is a practical standard value)
+Gain pins 1 and 8 are open. Pin 7 is open (optional 10uF bypass to ground).
+DIP-8: input to pin 3 through coupling capacitor; pins 2 and 4 ground;
+pin 6 +6 V; pin 5 output to coupling capacitor and series RC network.
+Output capacitor positive lead faces pin 5. Supply capacitor positive
+lead faces +6 V. Use short wiring and decouple at the IC.
+Start with a 1kHz sine of 20-50mV PEAK. 50mV peak = 100mV peak-to-peak.
+Power off before wiring. This version has no volume control: normal
+line/headphone output may overdrive it. Start at low source volume.
+An actual speaker has reactive impedance; the model uses an 8-ohm resistor.
+
+Existing lm386n-amp.net adds a volume pot and pin-7 bypass capacitor.
+The LM386N suffix (-1/-3/-4) must be checked before raising the supply.
+
+For an op-amp plus BD139/BD140 experiment on +/-6 V:
+  ne5532-bd139-amp.net  - preferred audio-oriented op-amp choice
+  jrc4558-bd139-amp.net - useful second choice if you have more spares
+  lm358-bd139-amp.net   - LM358 or LM358P, educational/voice use
+  lm324-bd139-amp.net   - similar role, four channels per package
+  741-bd139-amp.net     - LM741CN or UA741, educational comparison
+
+All five use gain 11, an 8-ohm load and the same transistor stage.
+They add a DC return for the input, replace the zero-ohm driver resistor
+with a zero-volt connection, add base stopper resistors and decoupling.
+The original extracted decks are preserved. +/-6 V means TWO rails with
+12 V between them, not a single +6 V supply.
+
+IMPORTANT MODEL LIMIT: these five decks contain a generic one-pole,
+rail-clamped op-amp model with illustrative bandwidth settings. They are
+self-contained topology demonstrations, not verified device macromodels.
+They omit noise, slew limiting, current limit, input bias/offset, and
+internal crossover distortion. No conclusion about actual sound, output
+power, thermal safety, or feedback stability follows from these models.
+The original simplified transistor models are also unvalidated.
+For meaningful comparison replace the approximation with a manufacturer
+model and match its subcircuit terminal order. A working schematic still
+needs bench validation, especially idle current and high-frequency stability.
+
+Package details:
+LM358P is a package variant of LM358, not a higher-performance amplifier.
+LM741CN and UA741 are in the 741 family; check vendor/suffix specifications.
+NE5532, JRC4558 and LM358 commonly share the dual DIP-8 pin arrangement.
+LM324 is DIP-14; 741 is a different DIP-8 pinout. They are not all socket swaps.
+Unused op-amp channels must be connected as followers with grounded inputs
+on these split supplies; each file documents the physical pin connections.
+
+Other ICs:
+TDA2030 is a speaker power amplifier and is the practical choice for more
+power with a suitable higher supply and heatsink. It is a different circuit,
+not a replacement op-amp in these files. The bare metal tab is tied to pin 3
+(negative supply); account for that when mounting a heatsink.
+TDA2822 is another low-voltage speaker amplifier option, particularly stereo.
+Confirm TDA2822 versus TDA2822M and pin count before creating its wiring:
+the 16-pin and 8-pin packages have different pin arrangements.
+LM386 is already represented; do not substitute it into an op-amp socket.
+
+Recommendation: LM386 for minimum parts; NE5532 or JRC4558 when exploring
+op-amp/transistor stages; TDA2030 for a later higher-power speaker project.
+LM358/LM324/741 can demonstrate amplification but are less attractive for
+wideband low-distortion audio. Performance depends on the entire circuit,
+not an intrinsic ranking of transistor or op-amp 'sound'.
+
+Simulation after installing ngspice, from the repository root:
+  ngspice -b -o /tmp/lm386-simple.log net/lm386n-simple-amp.net
+  ngspice -b -o /tmp/ne5532-amp.log net/ne5532-bd139-amp.net
+ngspice 47 is now installed. See reports/index.html for actual runs of
+the combined three-pair comparison; model limitations still apply.
+
+Primary references:
+https://www.ti.com/lit/ds/symlink/lm386.pdf
+https://www.ti.com/lit/ds/symlink/ne5532.pdf
+https://www.nisshinbo-microdevices.co.jp/en/products/operational-amplifier/spec/?product=njm4558
+https://www.ti.com/lit/ds/symlink/lm358.pdf
+https://www.ti.com/lit/ds/symlink/lm324.pdf
+https://www.ti.com/lit/ds/symlink/lm741.pdf
+https://www.ti.com/lit/an/sloa277b/sloa277b.pdf
+https://www.st.com/resource/en/datasheet/tda2030.pdf
+https://www.st.com/resource/en/datasheet/tda2822m.pdf

@@ -1,0 +1,42 @@
+* Artifact-Free Battery Swapping Power Circuit with Soft-Mute
+* SPICE Netlist - Educational Model
+
+.PARAM R_LOAD=8
+.PARAM C_BUFFER=22000u
+.PARAM V_BAT1=25.6
+.PARAM V_BAT2=24.0
+
+* --- POWER RAILS & SWITCHING MATRIX ---
+V_BankA V_A_pos 0 DC {V_BAT1}
+V_BankB V_B_pos 0 DC {V_BAT2}
+
+* Relay Contacts (Simulated as Voltage-Controlled Switches)
+S1 V_A_pos Rail_Pos_In SW_CTRL 0 SW_RELAY
+S2 V_B_pos Rail_Pos_In 0 SW_CTRL SW_RELAY
+
+D1 Rail_Pos_In Rail_Pos_Out 1N5408
+C1 Rail_Pos_Out 0 {C_BUFFER} IC={V_BAT1}
+R_LoadAmp Rail_Pos_Out 0 {R_LOAD}
+
+* Switch Model: Closed = 1mOhm, Open = 10Meg
+.MODEL SW_RELAY SW(Ron=1m Roff=10Meg Vt=2.5V)
+
+* --- AUDIO SIGNAL & JFET SOFT-MUTE ---
+V_Audio Audio_In 0 SIN(0 1.5 1000)
+R_Series Audio_In Audio_Muted 10k
+
+* JFET Shunt (2N5485 Model)
+J_Mute Audio_Muted Gate_Mute 0 J2N5485
+R_Gate Gate_Mute Ctrl_Mute 10k
+V_Mute Ctrl_Mute 0 PULSE(0 -5 10m 10u 10u 40m 100m)
+
+.MODEL J2N5485 NJF(Beta=1.2m Vto=-2.5 Is=10f)
+.MODEL 1N5408 D(Is=28.3n Rs=33.2m N=1.9 Tt=4.32u Cjo=45p)
+
+* --- TIMING CONTROL SIGNALS ---
+* Control Voltage for Relay Switchover
+V_Ctrl SW_CTRL 0 PULSE(0 5 25m 1m 1m 50m 100m)
+
+* --- TRANSIENT ANALYSIS ---
+.TRAN 0.1m 100m 0 0.1m
+.END
